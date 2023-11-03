@@ -24,7 +24,7 @@
 
 class BST {
    
-private:
+public:
 
    // You cannot change the following data members of this class.
    BSTNode * root = nullptr; 
@@ -46,6 +46,10 @@ private:
 
    // Description: Recursive in order traversal of a binary search tree.   
    void traverseInOrderR(void visit(WordPair &), BSTNode * current) const;
+
+   BSTNode * copyTree(BSTNode * node);
+
+   void deleteTree(BSTNode * node);
 
 
 public:

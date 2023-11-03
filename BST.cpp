@@ -30,19 +30,14 @@ using std::endl;
 
    // Copy constructor
    BST::BST(const BST & aBST) {
-      BST * cBST = new BST();
-      root = aBST.root;
+      root = copyTree(aBST.root);
       elementCount = aBST.elementCount;
-      BSTNode * curr = new BSTNode;
-      BSTNode * temp = new BSTNode;
-      curr = aBST.root;
-      temp = cBST->root;
 	  // to do
    }
 
    // Destructor 
    BST::~BST() {
-
+      deleteTree(root);
       // to do
    }                
    
@@ -128,6 +123,7 @@ using std::endl;
         throw EmptyDataCollectionException("Binary search tree is empty.");
 	
      WordPair& translated = retrieveR(targetElement, root);
+     cout << translated << endl;
 	 
      return translated;
    }
@@ -184,5 +180,25 @@ using std::endl;
          traverseInOrderR(visit, current->right);
       }
 	  // to do
-	  
+   }
+
+   BSTNode * BST::copyTree(BSTNode * node){
+      if(node == nullptr){
+         return nullptr;
+      }
+      else{
+         BSTNode * newNode = new BSTNode(node->element);
+         newNode->left = copyTree(node->left);
+         newNode->right = copyTree(node->right);
+         return newNode;
+      }
+   }
+
+   void BST::deleteTree(BSTNode * node){
+      if(node!=nullptr){
+         deleteTree(node->left);
+         deleteTree(node->right);
+         delete node;
+      }
+      root = nullptr;
    }

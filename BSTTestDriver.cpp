@@ -36,7 +36,7 @@ void display(WordPair& anElement) {
 int main(int argc, char *argv[]) {
 
   BST * testing = new BST();
-      
+
   string aLine = "";
   string aWord = "";
   string englishW = "";
@@ -58,6 +58,7 @@ int main(int argc, char *argv[]) {
         translationW = aLine;
         WordPair aWordPair(englishW, translationW);
         // insert aWordPair into "testing" using a try/catch block
+         testing->insert(aWordPair);
      }
      myfile.close();
 
@@ -72,6 +73,8 @@ int main(int argc, char *argv[]) {
            WordPair aWordPair(aWord);
            // retrieve aWordPair from "testing" using a try/catch block
            // print aWordPair
+           WordPair check = testing->retrieve(aWordPair);
+           cout << check << endl;
 
         }
      }
