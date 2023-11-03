@@ -31,7 +31,7 @@ using std::endl;
 
    // Destructor 
    Dictionary::~Dictionary() {
-      deleteDictionary(this->keyValuePairs->root);
+      deleteDictionary(keyValuePairs->root);
       // to do
    }                
    
@@ -42,7 +42,7 @@ using std::endl;
    // Time efficiency: O(1)   
    unsigned int Dictionary::getElementCount() const {     
 
-     return this->keyValuePairs->elementCount;
+     return keyValuePairs->elementCount;
    }
    
 
