@@ -28,7 +28,8 @@ private:
 
    // You cannot change the following data members of this class.
    BSTNode * root = nullptr; 
-   unsigned int elementCount = 0;        
+   unsigned int elementCount = 0;
+   friend class Dictionary;        
 
    /* Utility methods */
    
