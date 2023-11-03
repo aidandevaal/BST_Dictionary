@@ -103,7 +103,6 @@ using std::endl;
      if (keyValuePairs->elementCount == 0)  
        throw EmptyDataCollectionException("Binary search tree is empty.");
      
-     BSTNode * root = keyValuePairs->root;
      keyValuePairs->traverseInOrder(visit);
      
      return;
