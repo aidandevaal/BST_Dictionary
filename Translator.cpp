@@ -1,10 +1,10 @@
 /*
  * BSTTestDriver.cpp
  * 
- * Description: Drives the testing of the BST ADT class. 
+ * Description: Driver for Dictionary BST ADT class. 
  *
- * Author: AL
- * Last Modification Date: Oct. 2023
+ * Author: AL - Aidan de Vaal
+ * Last Modification Date: Nov. 3, 2023
  */
 
 #include <iostream>
@@ -33,7 +33,7 @@ void display(WordPair& anElement) {
 
 int main(int argc, char *argv[]) {
 
-  Dictionary * testing = new Dictionary();
+  Dictionary * myWords = new Dictionary();
 
   string nextLine = "";
   string nextWord = "";
@@ -55,9 +55,9 @@ int main(int argc, char *argv[]) {
         nextLine.erase(0, pos + delimiter.length());
         frenchW = nextLine;
         WordPair nextWordPair(englishW, frenchW);
-        // insert nextWordPair into "testing" using a try/catch block
+        // insert nextWordPair into "myWords" using a try/catch block
         try {
-           testing->put(nextWordPair);
+           myWords->put(nextWordPair);
         }
         catch (ElementAlreadyExistsException& anException) {
            cout << "put() unsuccessful because " << anException.what() << endl;
@@ -68,10 +68,11 @@ int main(int argc, char *argv[]) {
      }
      myfile.close();
      cout << "Finished reading." << endl;
-     // If user entered "display" at the command line ...
+
+     // If user entered "display" with program call
      if ((argc>1) && (strcmp(argv[1], "display") == 0)) {
         try {
-           testing->displayContent(display);
+           myWords->displayContent(display);
         }
         catch (EmptyDataCollectionException& anException) {
            cout << "displayContent() unsuccessful because " << anException.what() << endl;
@@ -81,10 +82,9 @@ int main(int argc, char *argv[]) {
         // while not EOF
         while (getline(cin, nextWord)) {   
             WordPair nextWordPair(nextWord);
-            // retrieve nextWordPair from "testing" using a try/catch block
-            // print nextWordPair
+            // retrieve nextWordPair from "myWords" using a try/catch block and print it
             try {
-              WordPair& check = testing->get(nextWordPair);
+              WordPair& check = myWords->get(nextWordPair);
               cout << check;
             }
             catch (EmptyDataCollectionException& anException) {
@@ -98,6 +98,5 @@ int main(int argc, char *argv[]) {
   }
   else 
      cout << "Unable to open file"; 
-
   return 0;
 }

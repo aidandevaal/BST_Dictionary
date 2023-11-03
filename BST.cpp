@@ -28,15 +28,17 @@
 
    // Copy constructor
    BST::BST(const BST & aBST) {
+
+      //recursive copy function starting at root of new BST
       root = copyTree(aBST.root);
+      //copy elementCount
       elementCount = aBST.elementCount;
-	  // to do
    }
 
    // Destructor 
    BST::~BST() {
+      //recursive delete function
       deleteTree(root);
-      // to do
    }                
    
    
@@ -61,16 +63,23 @@
    //            if "newElement" already exists in the binary search tree.
    // Time efficiency: O(log2 n)   
    void BST::insert(WordPair & newElement) {
+
+      //allocate space for newElement
       BSTNode * newNode = new BSTNode(newElement);
+      //set children to null since it's being added and set element member
       newNode->left = nullptr; newNode->right = nullptr; newNode->element = newElement;
+      
+      //new failed throw exception
       if(newNode == nullptr){
          throw UnableToInsertException("'new' operator failed.");
       }
+      //first element, set it to Dictionary's BST root and increment elementCount
       else if(elementCount == 0){
          this->root = newNode;
          this->elementCount++;
          return;
       }
+      //if element already exists throw exception, otherwise insert recursively
       if(!insertR(newNode, this->root)){
          throw(ElementAlreadyExistsException("Element already exists."));
       }
@@ -82,34 +91,39 @@
    //              Returns true when "anElement" has been successfully inserted into the 
    //              binary search tree. Otherwise, returns false.
    bool BST::insertR(BSTNode * newBSTNode, BSTNode * current) {
+      //technically throws element already exists (would fail anyway)
       if(newBSTNode == nullptr || current == nullptr){
          return false;
-      }  
+      }
+
+      //if new is greater than current, push it right
       if(newBSTNode->element > current->element){
          if(current->hasRight()){
             return insertR(newBSTNode, current->right);
          }
+         //if no right leaf, set it as right leaf of current
          else{
             current->right = newBSTNode;
             elementCount++;
             return true;
          }
       }
+      //if new is less than current, push it right
       else if(newBSTNode->element < current->element){
          if(current->hasLeft()){
             return insertR(newBSTNode, current->left);
          }
+         //if no left leaf, set it as left leaf of current
          else{
             current->left = newBSTNode;
             elementCount++;
             return true;
          }
       }
+      //element already exists
       else{
          return false;
-      }
-	  // to do
-		
+      }	
    }
 
    
@@ -124,9 +138,11 @@
    // Time efficiency: O(log2 n)
    WordPair& BST::retrieve(WordPair & targetElement) const {
       
+      //empty exception
      if (elementCount == 0)  
         throw EmptyDataCollectionException("Binary search tree is empty.");
 	
+      //calls recursive retrieve BST function from Dictionary's BST and saves return to translated
      WordPair& translated = retrieveR(targetElement, root);
 	 
      return translated;
@@ -136,28 +152,36 @@
    // Exception: Throws the exception "ElementDoesNotExistException" 
    //            if "targetElement" is not found in the binary search tree.
    WordPair& BST::retrieveR(WordPair & targetElement, BSTNode * current) const {
+      
+      //if somehow current gets set to null, element not found
       if(current == nullptr){
          throw ElementDoesNotExistException("***Not Found!***");
       }
+
+      //if target is greater than current, search right
       if(targetElement > current->element){
          if(current->hasRight()){
             return retrieveR(targetElement, current->right);
          }
+         //if there isn't a right leaf of current and target is greater
+         //element not found
          else{
             throw ElementDoesNotExistException("***Not Found!***");
          }
       }
+      //if target is less than current, search left
       if(targetElement < current->element){
          if(current->hasLeft()){
             return retrieveR(targetElement, current->left);
          }
+         //if there isn't a left leaf of current and target is less
+         //element not found
          else{
             throw ElementDoesNotExistException("***Not Found!***");
          }
       }
-      return current->element;
-	  // to do
-		
+      //if not greater than or less than, element is found and returned
+      return current->element;	
    } 
          
    
@@ -170,9 +194,11 @@
    // Time efficiency: O(n)     
    void BST::traverseInOrder(void visit(WordPair &)) const {
      
+     //empty exception
      if (elementCount == 0)  
        throw EmptyDataCollectionException("Binary search tree is empty.");
 
+      //call recursive with function visit and root of BST
      traverseInOrderR(visit, root);
      
      return;
@@ -180,29 +206,43 @@
 
    // Description: Recursive in order traversal of a binary search tree.   
    void BST::traverseInOrderR(void visit(WordPair &), BSTNode* current) const { 
+      
+      //first check left children/leaves
       if(current->hasLeft()){
          traverseInOrderR(visit, current->left);
       }
+      //then check parent/root-of-left-children
       visit(current->element);
+      //last check right children/leaves
       if(current->hasRight()){
          traverseInOrderR(visit, current->right);
       }
-	  // to do
    }
 
+   // Description: Helper function to deep copy BST.
+   // Precondition: BST has been initialized.
+   // Time Efficiency: O(n)
    BSTNode * BST::copyTree(BSTNode * node){
+
+      //if node is null return nullptr
       if(node == nullptr){
          return nullptr;
       }
       else{
+         //allocate new node space
          BSTNode * newNode = new BSTNode(node->element);
+         //post-order traversal of tree copying each node
          return newNode->left = copyTree(node->left);
          return newNode->right = copyTree(node->right);
          return newNode;
       }
    }
 
+   // Description: Helper function to destruct BST.
+   // Precondition: BST has been initialized.
+   // Time Efficiency: O(n)
    void BST::deleteTree(BSTNode * node){
+      //if node isn't null delete in post-order
       if(node!=nullptr){
          deleteTree(node->left);
          deleteTree(node->right);

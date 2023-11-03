@@ -6,7 +6,7 @@
  *              Duplicated elements not allowed.
  * 
  * Author: Aidan de Vaal
- * Date of last modification: Oct. 2023
+ * Date of last modification: Nov. 3, 2023
  */
  
 #include "BST.h"
@@ -54,16 +54,23 @@
    // Exception: Throws the exception "ElementAlreadyExistsException" 
    //            if "newElement" already exists in the Dictionary.   
    void Dictionary::put(WordPair & newElement) {
+      
+      //allocate space for newElement
       BSTNode * newNode = new BSTNode(newElement);
+      //set children to null since it's being added and set element member
       newNode->left = nullptr; newNode->right = nullptr; newNode->element = newElement;
+
+      //new failed throw exception
       if(newNode == nullptr){
          throw UnableToInsertException("'new' operator failed.");
       }
+      //first element, set it to Dictionary's BST root and increment elementCount
       else if(keyValuePairs->elementCount == 0){
          keyValuePairs->root = newNode;
          keyValuePairs->elementCount++;
          return;
       }
+      //if element already exists throw exception, otherwise insert recursively
       if(!keyValuePairs->insertR(newNode, keyValuePairs->root)){
          throw(ElementAlreadyExistsException("Element already exists."));
       }
@@ -78,9 +85,11 @@
    // Exception: Throws the exception EmptyDataCollectionException if the Dictionary is empty.
    WordPair& Dictionary::get(WordPair & targetElement) const {
       
+      //empty exception
      if (keyValuePairs->elementCount == 0)  
         throw EmptyDataCollectionException("Binary search tree is empty.");
-	
+
+      //calls recursive retrieve BST function from Dictionary's BST and saves return to translated
      WordPair& translated = keyValuePairs->retrieveR(targetElement, keyValuePairs->root);
 	 
      return translated;
@@ -90,9 +99,11 @@
    // Precondition: Dictionary is not empty.
    // Exception: Throws the exception EmptyDataCollectionException if the Dictionary is empty.   
    void Dictionary::displayContent(void visit(WordPair &)) const {
+
       //empty exception
      if (keyValuePairs->elementCount == 0)  
        throw EmptyDataCollectionException("Binary search tree is empty.");
+
      //call BST traverse (public) function from Dictionary's BST
      keyValuePairs->traverseInOrder(visit);
      

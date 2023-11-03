@@ -48,8 +48,14 @@ private:
    // Description: Recursive in order traversal of a binary search tree.   
    void traverseInOrderR(void visit(WordPair &), BSTNode * current) const;
 
+   // Description: Helper function to deep copy BST.
+   // Precondition: BST has been initialized.
+   // Time Efficiency: O(n)
    BSTNode * copyTree(BSTNode * node);
 
+   // Description: Helper function to destruct BST.
+   // Precondition: BST has been initialized.
+   // Time Efficiency: O(n)
    void deleteTree(BSTNode * node);
 
 
