@@ -24,7 +24,7 @@
 
 class BST {
    
-public:
+private:
 
    // You cannot change the following data members of this class.
    BSTNode * root = nullptr; 
