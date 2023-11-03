@@ -62,7 +62,13 @@ int main(int argc, char *argv[]) {
         testing->put(aWordPair);
      }
      myfile.close();
+     // If user entered "display" at the command line ...
+     if ( ( argc > 1 ) && ( strcmp(argv[1], "display") == 0) ) {
+        // ... then display the content of the BST.
 
+        testing->displayContent(display);
+
+     }
      if (argc == 1) {
         // while user has not entered CTRL+D
         while ( getline(cin, aWord) ) {   
@@ -72,7 +78,7 @@ int main(int argc, char *argv[]) {
             WordPair aWordPair(aWord);
             // retrieve aWordPair from "testing" using a try/catch block
             // print aWordPair
-            testing->get(aWordPair);
+            WordPair check = testing->get(aWordPair);
         }
      }
   }
