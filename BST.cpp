@@ -64,19 +64,19 @@ using std::endl;
    // Time efficiency: O(log2 n)   
    void BST::insert(WordPair & newElement) {
       BSTNode * newNode = new BSTNode(newElement);
-      newNode->left = nullptr; newNode->right = nullptr;
-      BSTNode * curr = this->root;
+      newNode->left = nullptr; newNode->right = nullptr; newNode->element = newElement;
       if(newNode == nullptr){
          throw UnableToInsertException("'new' operator failed.");
       }
       else if(elementCount == 0){
-         this->root->element = newElement;
+         this->root = newNode;
          this->elementCount++;
          return;
       }
-      if(!insertR(newNode, curr)){
-         throw ElementAlreadyExistsException("Element already exists.");
-      }
+      //else if(!insertR(newNode, curr)){
+         //delete newNode;
+         //throw ElementAlreadyExistsException("Element already exists.");
+      //}
       // to do
 	  
    } 
@@ -84,7 +84,10 @@ using std::endl;
    // Description: Recursive insertion into a binary search tree.
    //              Returns true when "anElement" has been successfully inserted into the 
    //              binary search tree. Otherwise, returns false.
-   bool BST::insertR(BSTNode * newBSTNode, BSTNode * current) {  
+   bool BST::insertR(BSTNode * newBSTNode, BSTNode * current) {
+      if(newBSTNode == nullptr || current == nullptr){
+         return false;
+      }  
       if(newBSTNode->element > current->element){
          if(current->hasRight()){
             return insertR(newBSTNode, current->right);
@@ -137,22 +140,20 @@ using std::endl;
    // Exception: Throws the exception "ElementDoesNotExistException" 
    //            if "targetElement" is not found in the binary search tree.
    WordPair& BST::retrieveR(WordPair & targetElement, BSTNode * current) const {
+      if(current == nullptr){
+         throw ElementDoesNotExistException("Element not found.");
+      }
       if(targetElement > current->element){
          if(current->hasRight()){
-            retrieveR(targetElement, current->right);
+            return retrieveR(targetElement, current->right);
          }
       }
       if(targetElement < current->element){
          if(current->hasLeft()){
-            retrieveR(targetElement, current->left);
+            return retrieveR(targetElement, current->left);
          }
       }
-      else if(current->element == targetElement){
-         return current->element;
-      }
-      else{
-         throw ElementDoesNotExistException("Element not found.");
-      }
+      return current->element;
 	  // to do
 		
    } 
@@ -178,11 +179,11 @@ using std::endl;
    // Description: Recursive in order traversal of a binary search tree.   
    void BST::traverseInOrderR(void visit(WordPair &), BSTNode* current) const { 
       if(current->hasLeft()){
-         traverseInOrderR(visit, current->left);
+         return traverseInOrderR(visit, current->left);
       }
-      traverseInOrderR(visit, current);
+      visit(current->element);
       if(current->hasRight()){
-         traverseInOrderR(visit, current->right);
+         return traverseInOrderR(visit, current->right);
       }
 	  // to do
    }
@@ -193,8 +194,8 @@ using std::endl;
       }
       else{
          BSTNode * newNode = new BSTNode(node->element);
-         newNode->left = copyTree(node->left);
-         newNode->right = copyTree(node->right);
+         return newNode->left = copyTree(node->left);
+         return newNode->right = copyTree(node->right);
          return newNode;
       }
    }
