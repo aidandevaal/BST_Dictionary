@@ -73,10 +73,7 @@ using std::endl;
          this->elementCount++;
          return;
       }
-      //else if(!insertR(newNode, curr)){
-         //delete newNode;
-         //throw ElementAlreadyExistsException("Element already exists.");
-      //}
+      insertR(newNode, this->root);
       // to do
 	  
    } 

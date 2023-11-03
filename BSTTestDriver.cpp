@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
      if ( ( argc > 1 ) && ( strcmp(argv[1], "display") == 0) ) {
         // ... then display the content of the BST.
 
-        testing->traverseInOrder(display(testing->root->element));
+        testing->traverseInOrder(display);
 
      }
      else if (argc == 1) {
