@@ -176,11 +176,11 @@ using std::endl;
    // Description: Recursive in order traversal of a binary search tree.   
    void BST::traverseInOrderR(void visit(WordPair &), BSTNode* current) const { 
       if(current->hasLeft()){
-         return traverseInOrderR(visit, current->left);
+         traverseInOrderR(visit, current->left);
       }
       visit(current->element);
       if(current->hasRight()){
-         return traverseInOrderR(visit, current->right);
+         traverseInOrderR(visit, current->right);
       }
 	  // to do
    }

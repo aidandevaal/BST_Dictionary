@@ -79,6 +79,7 @@ int main(int argc, char *argv[]) {
            // retrieve aWordPair from "testing" using a try/catch block
            // print aWordPair
            WordPair check = testing->retrieve(aWordPair);
+           testing->traverseInOrder(display);
         }
      }
   }
