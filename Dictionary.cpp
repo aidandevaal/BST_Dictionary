@@ -62,12 +62,12 @@ using std::endl;
       if(newNode == nullptr){
          throw UnableToInsertException("'new' operator failed.");
       }
-      else if(this->keyValuePairs->elementCount == 0){
-         this->keyValuePairs->root = newNode;
-         this->keyValuePairs->elementCount++;
+      else if(keyValuePairs->elementCount == 0){
+         keyValuePairs->root = newNode;
+         keyValuePairs->elementCount++;
          return;
       }
-      this->keyValuePairs->insertR(newNode, this->keyValuePairs->root);
+      keyValuePairs->insertR(newNode, keyValuePairs->root);
       // to do
 	  
    } 
@@ -83,10 +83,10 @@ using std::endl;
    // Time efficiency: O(log2 n)
    WordPair& Dictionary::get(WordPair & targetElement) const {
       
-     if (this->keyValuePairs->elementCount == 0)  
+     if (keyValuePairs->elementCount == 0)  
         throw EmptyDataCollectionException("Binary search tree is empty.");
 	
-     WordPair& translated = this->keyValuePairs->retrieveR(targetElement, this->keyValuePairs->root);
+     WordPair& translated = keyValuePairs->retrieveR(targetElement, keyValuePairs->root);
      cout << translated << endl;
 	 
      return translated;
@@ -100,11 +100,11 @@ using std::endl;
    //         if the binary search tree is empty.
    // Time efficiency: O(n)     
    void Dictionary::displayContent(void visit(WordPair &)) const {
-     if (this->keyValuePairs->elementCount == 0)  
+     if (keyValuePairs->elementCount == 0)  
        throw EmptyDataCollectionException("Binary search tree is empty.");
      
-     BSTNode * root = this->keyValuePairs->root;
-     this->keyValuePairs->traverseInOrder(visit);
+     BSTNode * root = keyValuePairs->root;
+     keyValuePairs->traverseInOrder(visit);
      
      return;
    }
@@ -115,5 +115,5 @@ using std::endl;
          deleteDictionary(node->right);
          delete node;
       }
-      this->keyValuePairs->root = nullptr;
+      keyValuePairs->root = nullptr;
    }
