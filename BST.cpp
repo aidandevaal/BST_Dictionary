@@ -69,6 +69,11 @@ using std::endl;
       if(newNode == nullptr){
          throw UnableToInsertException("'new' operator failed.");
       }
+      else if(elementCount == 0){
+         this->root->element = newElement;
+         this->elementCount++;
+         return;
+      }
       if(!insertR(newNode, curr)){
          throw ElementAlreadyExistsException("Element already exists.");
       }
@@ -82,7 +87,7 @@ using std::endl;
    bool BST::insertR(BSTNode * newBSTNode, BSTNode * current) {  
       if(newBSTNode->element > current->element){
          if(current->hasRight()){
-            insertR(newBSTNode, current->right);
+            return insertR(newBSTNode, current->right);
          }
          else{
             current->right = newBSTNode;
@@ -90,9 +95,9 @@ using std::endl;
             return true;
          }
       }
-      if(newBSTNode->element < current->element){
+      else if(newBSTNode->element < current->element){
          if(current->hasLeft()){
-            insertR(newBSTNode, current->left);
+            return insertR(newBSTNode, current->left);
          }
          else{
             current->left = newBSTNode;
