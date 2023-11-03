@@ -16,9 +16,6 @@
 #include "WordPair.h"
 #include <iostream>
 
-using std::cout;
-using std::endl;
-
 // You cannot change the prototype of the public methods of this class.
 // Remember, if you add public methods to this class, our test driver 
 // - the one we will use to mark this assignment - will not know about them
@@ -69,7 +66,10 @@ using std::endl;
          keyValuePairs->elementCount++;
          return;
       }
-      keyValuePairs->insertR(newNode, keyValuePairs->root);
+      if(!keyValuePairs->insertR(newNode, keyValuePairs->root)){
+         throw(ElementAlreadyExistsException("Element already exists."));
+      }
+      
       // to do
 	  
    } 
@@ -89,7 +89,6 @@ using std::endl;
         throw EmptyDataCollectionException("Binary search tree is empty.");
 	
      WordPair& translated = keyValuePairs->retrieveR(targetElement, keyValuePairs->root);
-     cout << translated << endl;
 	 
      return translated;
    }

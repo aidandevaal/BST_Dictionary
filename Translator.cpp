@@ -31,17 +31,14 @@ void display(WordPair& anElement) {
   cout << anElement;
 } 
 
-// As you discover what main() does, record your discoveries by commenting the code.
-// If you do not like this main(), feel free to write your own.
-// Remember, this is a test driver. Feel free to modify it as you wish!
 int main(int argc, char *argv[]) {
 
   Dictionary * testing = new Dictionary();
 
-  string aLine = "";
-  string aWord = "";
+  string nextLine = "";
+  string nextWord = "";
   string englishW = "";
-  string translationW = "";
+  string frenchW = "";
   string filename = "dataFile.txt";
   string delimiter = ":";
   size_t pos = 0;
@@ -50,37 +47,54 @@ int main(int argc, char *argv[]) {
   
   ifstream myfile (filename);
   if (myfile.is_open()) {
-     cout << "Reading from a file:" << endl; 
-     while ( getline (myfile,aLine) )
+     cout << "Reading..." << endl; 
+     while (getline(myfile,nextLine))
      {
-        pos = aLine.find(delimiter);
-        englishW = aLine.substr(0, pos);
-        aLine.erase(0, pos + delimiter.length());
-        translationW = aLine;
-        WordPair aWordPair(englishW, translationW);
-        // insert aWordPair into "testing" using a try/catch block
-        testing->put(aWordPair);
-     }
-     myfile.close();
-     // If user entered "display" at the command line ...
-     if ( ( argc > 1 ) && ( strcmp(argv[1], "display") == 0) ) {
-        // ... then display the content of the BST.
-
-        testing->displayContent(display);
-
-     }
-     if (argc == 1) {
-        // while user has not entered CTRL+D
-        while ( getline(cin, aWord) ) {   
-            if(aWord == "display"){
-              testing->displayContent(display);
-            }
-            WordPair aWordPair(aWord);
-            // retrieve aWordPair from "testing" using a try/catch block
-            // print aWordPair
-            testing->get(aWordPair);
+        pos = nextLine.find(delimiter);
+        englishW = nextLine.substr(0, pos);
+        nextLine.erase(0, pos + delimiter.length());
+        frenchW = nextLine;
+        WordPair nextWordPair(englishW, frenchW);
+        // insert nextWordPair into "testing" using a try/catch block
+        try {
+           testing->put(nextWordPair);
+        }
+        catch (ElementAlreadyExistsException& anException) {
+           cout << "put() unsuccessful because " << anException.what() << endl;
+        }
+        catch (UnableToInsertException& anException) {
+           cout << "put() unsuccessful because " << anException.what() << endl;
         }
      }
+     myfile.close();
+     cout << "Finished reading." << endl;
+     // If user entered "display" at the command line ...
+     if ((argc>1) && (strcmp(argv[1], "display") == 0)) {
+        try {
+           testing->displayContent(display);
+        }
+        catch (EmptyDataCollectionException& anException) {
+           cout << "displayContent() unsuccessful because " << anException.what() << endl;
+        }
+     }
+     else if (argc == 1) {
+        // while not EOF
+        while (getline(cin, nextWord)) {   
+            WordPair nextWordPair(nextWord);
+            // retrieve nextWordPair from "testing" using a try/catch block
+            // print nextWordPair
+            try {
+              WordPair& check = testing->get(nextWordPair);
+              cout << check;
+            }
+            catch (EmptyDataCollectionException& anException) {
+              cout << "get() unsuccessful because " << anException.what() << endl;
+            }
+            catch (ElementDoesNotExistException& anException) {
+               cout << anException.what() << endl;
+            }
+            }
+        }
   }
   else 
      cout << "Unable to open file"; 

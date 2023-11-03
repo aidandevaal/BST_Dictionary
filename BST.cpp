@@ -15,8 +15,6 @@
 #include "WordPair.h"
 #include <iostream>
 
-using std::cout;
-using std::endl;
 
 // You cannot change the prototype of the public methods of this class.
 // Remember, if you add public methods to this class, our test driver 
@@ -73,7 +71,9 @@ using std::endl;
          this->elementCount++;
          return;
       }
-      insertR(newNode, this->root);
+      if(!insertR(newNode, this->root)){
+         throw(ElementAlreadyExistsException("Element already exists."));
+      }
       // to do
 	  
    } 
@@ -128,7 +128,6 @@ using std::endl;
         throw EmptyDataCollectionException("Binary search tree is empty.");
 	
      WordPair& translated = retrieveR(targetElement, root);
-     cout << translated << endl;
 	 
      return translated;
    }
@@ -138,16 +137,22 @@ using std::endl;
    //            if "targetElement" is not found in the binary search tree.
    WordPair& BST::retrieveR(WordPair & targetElement, BSTNode * current) const {
       if(current == nullptr){
-         throw ElementDoesNotExistException("Element not found.");
+         throw ElementDoesNotExistException("***Not Found!***");
       }
       if(targetElement > current->element){
          if(current->hasRight()){
             return retrieveR(targetElement, current->right);
          }
+         else{
+            throw ElementDoesNotExistException("***Not Found!***");
+         }
       }
       if(targetElement < current->element){
          if(current->hasLeft()){
             return retrieveR(targetElement, current->left);
+         }
+         else{
+            throw ElementDoesNotExistException("***Not Found!***");
          }
       }
       return current->element;
