@@ -7,8 +7,8 @@
  *
  * Class invariant: It is always a BST.
  * 
- * Author: Inspired from our textbook
- * Date of last modification: Oct. 2023
+ * Author: Inspired from our textbook - Aidan de Vaal
+ * Date of last modification: Nov. 3, 2023
  */
 
 #ifndef BST_H

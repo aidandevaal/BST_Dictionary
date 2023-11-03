@@ -5,8 +5,8 @@
  *              BST-based implementation.
  *              Duplicated elements not allowed.
  *              
- * Author: AL
- * Date of last modification: Oct. 2023
+ * Author: Aidan de Vaal
+ * Date of last modification: Nov. 3, 2023
  */
 
 #ifndef DICTIONARY_H

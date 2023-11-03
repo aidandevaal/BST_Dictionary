@@ -1,13 +1,11 @@
 /*
- * BST.cpp
+ * Dictionary.cpp
  * 
- * Description: Binary Search Tree data collection ADT class.
- *              Link-based implementation.
- *              Duplicated elements are not allowed.
- *
- * Class invariant: It is always a BST.
+ * Description: Dictonary data collection ADT class.
+ *              BST-based implementation.
+ *              Duplicated elements not allowed.
  * 
- * Author: Inspired from our textbook
+ * Author: Aidan de Vaal
  * Date of last modification: Oct. 2023
  */
  
@@ -25,11 +23,13 @@
 
    // Default constructor
    Dictionary::Dictionary() { 
+      //allocate space for BST
       keyValuePairs = new BST();
    }            
 
    // Destructor 
    Dictionary::~Dictionary() {
+      //call helper recursive delete function
       deleteDictionary(keyValuePairs->root);
       // to do
    }                
@@ -37,24 +37,22 @@
    
 /* Getters and setters */
 
-   // Description: Returns the number of elements currently stored in the binary search tree.   
+   // Description: Returns the number of elements currently stored in the Dictionary.   
    // Time efficiency: O(1)   
    unsigned int Dictionary::getElementCount() const {     
-
      return keyValuePairs->elementCount;
    }
    
 
-/* BST Operations */
+/* Dictionary Operations */
 
-   // Description: Inserts an element into the binary search tree.
-   //              This is a wrapper method which calls the recursive insertR( ).
-   // Precondition: "newElement" does not already exist in the binary search tree.
-   // Exception: Throws the exception "UnableToInsertException" when newElement 
-   //            cannot be inserted because the "new" operator failed. 
+   // Description: Puts "newElement" (association of key-value) into the Dictionary.
+   // Precondition: "newElement" does not already exist in the Dictionary.
+   //               This is to say: no duplication allowed.
+   // Exception: Throws the exception "UnableToInsertException" 
+   //            when newElement cannot be inserted in the Dictionary.  
    // Exception: Throws the exception "ElementAlreadyExistsException" 
-   //            if "newElement" already exists in the binary search tree.
-   // Time efficiency: O(log2 n)   
+   //            if "newElement" already exists in the Dictionary.   
    void Dictionary::put(WordPair & newElement) {
       BSTNode * newNode = new BSTNode(newElement);
       newNode->left = nullptr; newNode->right = nullptr; newNode->element = newElement;
@@ -69,20 +67,15 @@
       if(!keyValuePairs->insertR(newNode, keyValuePairs->root)){
          throw(ElementAlreadyExistsException("Element already exists."));
       }
-      
       // to do
-	  
    } 
 
-   // Description: Retrieves "targetElement" from the binary search tree.
-   //           This is a wrapper method which calls the recursive retrieveR( ).
-   // Precondition: Binary search tree is not empty.
-   // Exception: Throws the exception "EmptyDataCollectionException" 
-   //            if the binary search tree is empty.
-   // Exception: Throws (propagates) the exception "ElementDoesNotExistException" 
-   //            thrown from the retrieveR(...)
-   //            if "targetElement" is not in the binary search tree.
-   // Time efficiency: O(log2 n)
+   // Description: Gets "newElement" (i.e., the associated value of a given key) 
+   //              from the Dictionary.
+   // Precondition: Dictionary is not empty.
+   // Exception: Throws the exception ElementDoesNotExistException
+   //            if the key is not found in the Dictionary.
+   // Exception: Throws the exception EmptyDataCollectionException if the Dictionary is empty.
    WordPair& Dictionary::get(WordPair & targetElement) const {
       
      if (keyValuePairs->elementCount == 0)  
@@ -93,27 +86,32 @@
      return translated;
    }
    
-   // Description: Traverses the binary search tree in order.
-   //           This is a wrapper method which calls the recursive traverseInOrderR( ).
-   //           The action to be done on each element during the traverse is the function "visit".
-   // Precondition: Binary search tree is not empty.
-   // Exception: Throws the exception "EmptyDataCollectionException" 
-   //         if the binary search tree is empty.
-   // Time efficiency: O(n)     
+   // Description: Prints the content of the Dictionary.
+   // Precondition: Dictionary is not empty.
+   // Exception: Throws the exception EmptyDataCollectionException if the Dictionary is empty.   
    void Dictionary::displayContent(void visit(WordPair &)) const {
+      //empty exception
      if (keyValuePairs->elementCount == 0)  
        throw EmptyDataCollectionException("Binary search tree is empty.");
-     
+     //call BST traverse (public) function from Dictionary's BST
      keyValuePairs->traverseInOrder(visit);
      
      return;
    }
 
+   // Description: Helper function to destruct Dictionary.
+   // Precondition: Dictionary keyValuePairs has been initialized.
+   // Time Efficiency: O(n)
    void Dictionary::deleteDictionary(BSTNode * node){
+      //while there's a node, post-order traverse
       if(node!=nullptr){
+         //delete left child elements
          deleteDictionary(node->left);
+         //delete right child elements
          deleteDictionary(node->right);
+         //delete roots
          delete node;
       }
+      //set root to nullptr
       keyValuePairs->root = nullptr;
    }
