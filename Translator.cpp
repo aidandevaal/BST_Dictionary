@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
             WordPair aWordPair(aWord);
             // retrieve aWordPair from "testing" using a try/catch block
             // print aWordPair
-            WordPair check = testing->get(aWordPair);
+            testing->get(aWordPair);
         }
      }
   }

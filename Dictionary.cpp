@@ -27,7 +27,9 @@ using std::endl;
 /* Constructors and destructor */
 
    // Default constructor
-   Dictionary::Dictionary() { }            
+   Dictionary::Dictionary() { 
+      keyValuePairs = new BST();
+   }            
 
    // Destructor 
    Dictionary::~Dictionary() {
